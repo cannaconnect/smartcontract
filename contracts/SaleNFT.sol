@@ -5,20 +5,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./NFT.sol";
 
 contract PresaleNFT is Ownable {
-
     CANNANFT public token;
     uint256 public price;
 
-    event BuyToken(address indexed user, uint256 tokenId);
+    event BuyToken(address indexed user, uint256[] tokenIds);
 
-    constructor(address _token, address _owner) Ownable (_owner) {
+    constructor(address _token) Ownable() {
         token = CANNANFT(_token);
     }
 
-    function buy() external payable {
-        require(msg.value == price,"Price not exactly");
-        uint256 id = token.mintNFT(msg.sender);
-        emit BuyToken(msg.sender, id);
+    function buy(uint256 quantity) external payable {
+        require(msg.value == price * quantity, "Incorrect ETH amount sent");
+        uint256[] memory ids = token.mintNFT(msg.sender, quantity);
+        emit BuyToken(msg.sender, ids);
     }
 
     function setPrice(uint256 _price) external onlyOwner {
@@ -28,5 +27,4 @@ contract PresaleNFT is Ownable {
     function withdrawFund() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
-
 }

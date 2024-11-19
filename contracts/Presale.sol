@@ -17,10 +17,9 @@ contract PresaleToken is Ownable {
 
     constructor(
         address _token,
-        address _owner,
         uint256 initTotalSale,
         uint256 initPrice
-    )Ownable (_owner) {
+    )Ownable () {
         token = IERC20(_token);
         totalPresale = initTotalSale;
         price = initPrice;

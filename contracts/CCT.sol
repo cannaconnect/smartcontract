@@ -12,10 +12,9 @@ contract CannaConnect is ERC20, Ownable {
 
     constructor(
         string memory _name,
-        string memory _symbol,
-        address _owner
-    ) ERC20(_name, _symbol) Ownable(_owner) {
-        _mint(_owner, initialSupply);
+        string memory _symbol
+    ) ERC20(_name, _symbol) Ownable() {
+        _mint(msg.sender, initialSupply);
     }
 
 }
